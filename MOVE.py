@@ -29,8 +29,12 @@ def comp_variance(record):
 def comp_extended_record(short_years, short_record, long_years, long_record):
     
     """MOVE method to extend short flow gage record using appropriate long record
-    expects log10 transformed flows
+    
     """
+    
+    long_record = np.log10(long_record)
+    
+    short_record = np.log10(short_record)
     
     suppress_params = False
     
@@ -141,7 +145,7 @@ def comp_extended_record(short_years, short_record, long_years, long_record):
     
     b = np.sqrt(b_sq)
     
-    extension_short_record = [10**(a+b*(xi-xe_bar)) for xi in extension_record] 
+    extension_short_record = [int(round(10**(a+b*(xi-xe_bar)))) for xi in extension_record] 
     
     if suppress_params == False:    
         print('a = '+str(a))
@@ -163,16 +167,14 @@ def comp_extended_record(short_years, short_record, long_years, long_record):
         print('sx1 = '+str(np.sqrt(s_sq_x1)))
         print('sx2 = '+str(np.sqrt(s_sq_x2)))
     
-    short_record_flows = [10**x for x in short_record]
+    short_record_flows = [int(round(10**x)) for x in short_record]
     extended_short_record = extension_short_record + short_record_flows 
     
     extended_short_years = extension_years + short_years
     return extended_short_record, extended_short_years
 
 def main():
-    
-    import numpy as np
-    
+
     import csv
     with open('Suwanee.csv', 'r') as f:
         reader = csv.reader(f)
@@ -189,7 +191,7 @@ def main():
         long_record = [int(x1[1]) for x1 in x]
     
     
-    out = comp_extended_record(short_years, np.log10(short_record), long_years, np.log10(long_record))
+    out = comp_extended_record(short_years, short_record, long_years, long_record)
 
     print(out)
     
