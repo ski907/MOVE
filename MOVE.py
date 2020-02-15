@@ -28,8 +28,8 @@ def comp_variance(record):
 
 def comp_extended_record(short_years, short_record, long_years, long_record):
     
-    """MOVE method to extend short record using appropriate long record
-    expectes log10 transformed flows
+    """MOVE method to extend short flow gage record using appropriate long record
+    expects log10 transformed flows
     """
     
     suppress_params = False
